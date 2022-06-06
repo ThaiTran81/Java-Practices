@@ -1,10 +1,13 @@
+import data.DataAccess;
+import model.CompanyModel;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class AppControl {
 //    static public void main (String[] args){
-//        DataAccess.getInstance().importDataFileFrom("/Users/tranthai/Desktop/companies.csv");
+//        data.DataAccess.getInstance().importDataFileFrom("/Users/tranthai/Desktop/companies.csv");
 //
 //
 //    }
@@ -37,8 +40,8 @@ public class AppControl {
     }
 
     void output(){
-        printTotalCapitalOfHeadIn("CH");
-        printCompaniesIn("CH");
+        printTotalCapitalOfHeadIn("VN");
+        printCompaniesIn("VN");
     }
 
     void printTotalCapitalOfHeadIn(String country){
@@ -53,6 +56,9 @@ public class AppControl {
     }
 
     void printCompanies(List<CompanyModel> lst){
-        lst.forEach(it -> System.out.println(it.id+" - "+it.name+" - "+it.country+ " - capital: "+it.capital));
+        int count=0;
+        lst.forEach(it -> {
+            System.out.println(it.getId()+" - "+it.getName()+" - "+it.getCountry()+ " - capital: "+it.getCapital());
+        });
     }
 }

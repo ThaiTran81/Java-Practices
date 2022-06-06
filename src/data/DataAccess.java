@@ -1,3 +1,7 @@
+package data;
+
+import model.CompanyModel;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +17,7 @@ public class DataAccess {
         return da;
     }
 
-    Boolean importDataFileFrom(String pathfile) {
+    public Boolean importDataFileFrom(String pathfile) {
         Path path = Paths.get(pathfile);
 
         if (!Files.exists(path) || Files.isDirectory(path)) return false;
@@ -33,20 +37,22 @@ public class DataAccess {
         return false;
     }
 
-    int getTotalCapitalOfHeadquartersIn(String country) {
+    public int getTotalCapitalOfHeadquartersIn(String country) {
         int count = 0;
         for (CompanyModel it : companies) {
-            if(it.getCountry().equalsIgnoreCase(country) && it.isHeadQuarter) count++;
+            if(it.getCountry().equalsIgnoreCase(country) && it.getHeadQuarter()) count++;
         }
         return count;
     }
 
-    List<CompanyModel> getByCountryAndOrderDesCapital(String country){
-        return companies.stream().filter(companyModel -> companyModel.getCountry().equalsIgnoreCase(country))
-                .sorted((a,b)-> b.capital - a.capital).toList();
+    public List<CompanyModel> getByCountryAndOrderDesCapital(String country){
+        return companies.stream()
+                .filter(companyModel -> companyModel.getCountry().equalsIgnoreCase(country))
+                .sorted((a,b)-> b.getCapital() - a.getCapital())
+                .toList();
     }
 
-    String getPath(){
+    public String getPath(){
         return df.path.toString();
     }
 

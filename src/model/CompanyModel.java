@@ -1,3 +1,5 @@
+package model;
+
 public class CompanyModel {
     int id;
     String name;

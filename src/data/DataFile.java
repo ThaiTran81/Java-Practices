@@ -1,3 +1,7 @@
+package data;
+
+import model.CompanyModel;
+
 import java.nio.file.Path;
 import java.util.List;
 

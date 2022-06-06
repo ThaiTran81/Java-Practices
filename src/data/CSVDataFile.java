@@ -1,3 +1,7 @@
+package data;
+
+import model.CompanyModel;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -5,11 +9,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVDataFile extends DataFile{
+public class CSVDataFile extends DataFile {
     public CSVDataFile(Path path) {
         super(path);
     }
-
     @Override
     List<CompanyModel> getData() {
         List<CompanyModel> arr = new ArrayList<>();
@@ -31,6 +34,7 @@ public class CSVDataFile extends DataFile{
                 companyModel.setHeadQuarter(!data[5].equals("") && !data[5].equals("0"));
 
                 arr.add(companyModel);
+
             }
         } catch (IOException e) {
             System.out.println(e);
