@@ -1,12 +1,16 @@
+package data;
+
+import ui.AppControl;
+
 import java.io.IOException;
 import java.nio.file.*;
 
 public class FileObserve implements Runnable {
 
-    WatchService watchService;
+    private WatchService watchService;
 
-    Path path;
-    AppControl appControl;
+    private Path path;
+    private AppControl appControl;
 
     public FileObserve(String pathfile, AppControl appControl) throws IOException {
         watchService = FileSystems.getDefault().newWatchService();
@@ -30,8 +34,7 @@ public class FileObserve implements Runnable {
         while (key != null) {
             for (WatchEvent<?> event : key.pollEvents()) {
                 if (event.context().equals(path.getFileName())) {
-                    System.out.println("============= The file has been updating ==========");
-                    appControl.update();
+                    appControl.importFile(DataAccess.getInstance().getPath());
                 }
             }
 //            key.reset();

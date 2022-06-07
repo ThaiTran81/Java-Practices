@@ -1,14 +1,14 @@
 package model;
 
 public class CompanyModel {
-    int id;
-    String name;
-    int day = -1;
-    int month = -1;
-    int year = -1;
-    int capital;
-    String country;
-    Boolean isHeadQuarter;
+    private int id;
+    private String name;
+    private int day;
+    private int month;
+    private int year;
+    private int capital;
+    private String country;
+    private boolean isHeadQuarter;
 
     public int getId() {
         return id;
@@ -66,11 +66,11 @@ public class CompanyModel {
         this.country = country;
     }
 
-    public Boolean getHeadQuarter() {
+    public boolean getHeadQuarter() {
         return isHeadQuarter;
     }
 
-    public void setHeadQuarter(Boolean headQuarter) {
+    public void setHeadQuarter(boolean headQuarter) {
         isHeadQuarter = headQuarter;
     }
 

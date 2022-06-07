@@ -6,9 +6,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 public abstract class DataFile {
-    Path path;
-    DataFile(Path path){
+    protected Path path;
+    public DataFile(Path path){
         this.path = path;
     }
-    abstract List<CompanyModel> getData();
+    public abstract List<CompanyModel> getData();
 }

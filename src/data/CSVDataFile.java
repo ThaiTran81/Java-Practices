@@ -8,19 +8,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CSVDataFile extends DataFile {
     public CSVDataFile(Path path) {
         super(path);
     }
     @Override
-    List<CompanyModel> getData() {
+    public List<CompanyModel> getData() {
         List<CompanyModel> arr = new ArrayList<>();
         try(BufferedReader reader = Files.newBufferedReader(path)) {
             String line = null;
 
             //skip the first line
             reader.readLine();
+
             while ((line = reader.readLine()) != null) {
                 CompanyModel companyModel = new CompanyModel();
                 String[] data = line.split(",", -1);
@@ -34,7 +36,6 @@ public class CSVDataFile extends DataFile {
                 companyModel.setHeadQuarter(!data[5].equals("") && !data[5].equals("0"));
 
                 arr.add(companyModel);
-
             }
         } catch (IOException e) {
             System.out.println(e);
