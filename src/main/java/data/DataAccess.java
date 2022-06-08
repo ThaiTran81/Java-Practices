@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class DataAccess {
     public FileObserve fileObserve;
     private Thread fileObserveThread;
 
-    static public DataAccess getInstance() {
+    public static DataAccess getInstance() {
         if (da == null) da = new DataAccess();
         return da;
     }
@@ -34,6 +33,7 @@ public class DataAccess {
             case "csv" -> {
                 df = new CSVDataFile(path);
             }
+
             default -> throw new UnsupportedOperationException("The file extension is not supported");
         }
         setFileObserve(pathfile);
@@ -51,7 +51,7 @@ public class DataAccess {
     }
 
     public List<CompanyModel> getAllData() throws NullPointerException {
-        List<CompanyModel> companies = new ArrayList<>();
+        List<CompanyModel> companies;
         if (df != null) {
             companies = df.getData();
         } else throw new NullPointerException("Need to set the url of the first");
@@ -86,8 +86,7 @@ public class DataAccess {
     public List<CompanyModel> getByCountryAndOrderDesCapital(List<CompanyModel> companies, String country) {
         return companies.stream()
                 .filter(companyModel -> companyModel.getCountry().equalsIgnoreCase(country))
-                .sorted(Comparator.comparingInt(CompanyModel::getCapital).reversed())
-                .toList();
+                .sorted(Comparator.comparingInt(CompanyModel::getCapital).reversed()).toList();
     }
 
     public String getPath() {

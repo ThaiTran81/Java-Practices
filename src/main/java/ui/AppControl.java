@@ -3,18 +3,18 @@ package ui;
 import bussiness.FileImportState;
 import bussiness.ImportingSate;
 import data.DataAccess;
-import data.FileObserve;
 import data.Listener;
 import model.CompanyModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentMap;
 
 public class AppControl implements Listener {
 
-    private Thread fileObserveThrd;
+    private final static Logger LOGGER = LogManager.getLogger(AppControl.class);
+
     private final Scanner sc;
 
     private FileImportState fileImportState;
@@ -30,10 +30,10 @@ public class AppControl implements Listener {
 
         changeImportState(new ImportingSate(this));
         while (!check) {
-            System.out.print("Enter the url of file:");
+            LOGGER.info("Enter the url of file:");
             path = sc.nextLine();
             check = DataAccess.getInstance().setPathFile(path);
-            if(!check) System.out.println("Import failed! Please try again");
+            if(!check) LOGGER.info("Import failed! Please try again\n");
         }
 
         DataAccess.getInstance().fileObserve.subcribe(this);
@@ -46,12 +46,12 @@ public class AppControl implements Listener {
         int choice = -1;
 
         while (!check) {
-            System.out.println("============== Menu ===============");
-            System.out.println("1. Output the total capital of headquarters located in “CH”.");
-            System.out.println("2. Output the name of companies that the country is in “CH”. The list is sorted descending by capital.");
-            System.out.println("3. Reimport");
-            System.out.println("0. Exit");
-            System.out.print("->>>>>>>> Your choice: ");
+            LOGGER.info("============== Menu ===============\n");
+            LOGGER.info("1. Output the total capital of headquarters located in “CH”.\n");
+            LOGGER.info("2. Output the name of companies that the country is in “CH”. The list is sorted descending by capital.\n");
+            LOGGER.info("3. Reimport\n");
+            LOGGER.info("0. Exit\n");
+            LOGGER.info("->>>>>>>> Your choice: ");
             choice = sc.nextInt();
 
             switch (choice){
@@ -82,19 +82,19 @@ public class AppControl implements Listener {
     }
 
     void printTotalCapitalOfHeadIn(String country) {
-        System.out.print("======= The total capital of headquarters located in " + country + ": ");
-        System.out.println(DataAccess.getInstance().getTotalCapitalOfHeadquartersIn(companies, country));
+        LOGGER.info("======= The total capital of headquarters located in " + country + ": ");
+        LOGGER.info(DataAccess.getInstance().getTotalCapitalOfHeadquartersIn(companies, country)+"\n");
     }
 
     void printCompaniesIn(String country) {
-        System.out.println("======== The name of companies that the country is in " + country + ": ");
+        LOGGER.info("======== The name of companies that the country is in " + country + ": \n");
         List<CompanyModel> lst = DataAccess.getInstance().getByCountryAndOrderDesCapital(companies,country);
         printCompanies(lst);
     }
 
     void printCompanies(List<CompanyModel> lst) {
         lst.forEach(it -> {
-            System.out.println(it.getId() + " - " + it.getName() + " - " + it.getCountry() + " - capital: " + it.getCapital());
+            LOGGER.info(it.getId() + " - " + it.getName() + " - " + it.getCountry() + " - capital: " + it.getCapital()+"\n");
         });
     }
 
