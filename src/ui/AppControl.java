@@ -1,17 +1,25 @@
 package ui;
 
+import bussiness.FileImportState;
+import bussiness.ImportingSate;
 import data.DataAccess;
 import data.FileObserve;
+import data.Listener;
 import model.CompanyModel;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentMap;
 
-public class AppControl {
+public class AppControl implements Listener {
 
     private Thread fileObserveThrd;
     private final Scanner sc;
+
+    private FileImportState fileImportState;
+
+    private List<CompanyModel> companies;
 
     public AppControl(){
         sc = new Scanner(System.in);
@@ -20,25 +28,17 @@ public class AppControl {
         boolean check = false;
         String path = "";
 
+        changeImportState(new ImportingSate(this));
         while (!check) {
             System.out.print("Enter the url of file:");
             path = sc.nextLine();
-            check = importFile(path);
+            check = DataAccess.getInstance().setPathFile(path);
+            if(!check) System.out.println("Import failed! Please try again");
         }
 
-        try {
-            fileObserveThrd = new Thread(new FileObserve(path, this));
-            fileObserveThrd.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        DataAccess.getInstance().fileObserve.subcribe(this);
         showMenu();
 
-    }
-
-    public boolean importFile(String path) {
-        return DataAccess.getInstance().importDataFileFrom(path);
     }
 
     void showMenu() {
@@ -59,22 +59,36 @@ public class AppControl {
                     check = true;
                     exit();
                 }
-                case 1 -> printTotalCapitalOfHeadIn("VN");
-                case 2 -> printCompaniesIn("VN");
+                case 1 -> {
+                    fileImportState.onImport();
+                    printTotalCapitalOfHeadIn("VN");
+                }
+                case 2 -> {
+                    fileImportState.onImport();
+                    printCompaniesIn("VN");
+                }
                 case 3 -> start();
                 default -> {}
             }
         }
     }
 
+    public void importData(){
+        companies = DataAccess.getInstance().getAllData();
+        fileImportState.onImported();
+    }
+    public void changeImportState(FileImportState fileImportState){
+        this.fileImportState = fileImportState;
+    }
+
     void printTotalCapitalOfHeadIn(String country) {
         System.out.print("======= The total capital of headquarters located in " + country + ": ");
-        System.out.println(DataAccess.getInstance().getTotalCapitalOfHeadquartersIn(country));
+        System.out.println(DataAccess.getInstance().getTotalCapitalOfHeadquartersIn(companies, country));
     }
 
     void printCompaniesIn(String country) {
         System.out.println("======== The name of companies that the country is in " + country + ": ");
-        List<CompanyModel> lst = DataAccess.getInstance().getByCountryAndOrderDesCapital(country);
+        List<CompanyModel> lst = DataAccess.getInstance().getByCountryAndOrderDesCapital(companies,country);
         printCompanies(lst);
     }
 
@@ -87,5 +101,10 @@ public class AppControl {
     void exit(){
         sc.close();
        System.exit(0);
+    }
+
+    @Override
+    public void update() {
+        changeImportState(new ImportingSate(this));
     }
 }
