@@ -6,7 +6,7 @@ public abstract class FileImportState {
 
     protected AppControl appControl;
 
-    public FileImportState(AppControl appControl){
+    protected FileImportState(AppControl appControl){
         this.appControl = appControl;
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class DataFile {
     protected Path path;
-    public DataFile(Path path){
+    protected DataFile(Path path){
         this.path = path;
     }
     public abstract List<CompanyModel> getData();
