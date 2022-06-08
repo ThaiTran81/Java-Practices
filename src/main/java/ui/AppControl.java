@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class AppControl implements Listener {
 
-    private final static Logger LOGGER = LogManager.getLogger(AppControl.class);
+    private final Logger LOGGER = LogManager.getLogger(AppControl.class);
 
     private final Scanner sc;
 
@@ -31,7 +31,7 @@ public class AppControl implements Listener {
         changeImportState(new ImportingSate(this));
         while (!check) {
             LOGGER.info("Enter the url of file:");
-            path = sc.nextLine();
+            if(sc.hasNext())  path = sc.nextLine();
             check = DataAccess.getInstance().setPathFile(path);
             if(!check) LOGGER.info("Import failed! Please try again\n");
         }
