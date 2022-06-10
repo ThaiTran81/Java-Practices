@@ -1,0 +1,17 @@
+
+M
+java:S2629U"7Use the built-in formatting to construct this argument.(¤åéÿ
+R
+java:S2629Z"7Use the built-in formatting to construct this argument.(ôƒ–Ìøÿÿÿÿ
+k	java:S116"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ«ÓÐýÿÿÿÿ
+>	java:S108G")Either remove or fill this block of code.(”ì­è
+W
+java:S3457U"AFormat specifiers should be used instead of string concatenation.(¤åéÿ
+V
+java:S3457V"AFormat specifiers should be used instead of string concatenation.(Ðð¶d
+\
+java:S3457Z"AFormat specifiers should be used instead of string concatenation.(ôƒ–Ìøÿÿÿÿ
+G
+java:S1602`",Remove useless curly braces around statement(÷“±Ÿøÿÿÿÿ
+\
+java:S3457a"AFormat specifiers should be used instead of string concatenation.(ï–¨¡ùÿÿÿÿ
